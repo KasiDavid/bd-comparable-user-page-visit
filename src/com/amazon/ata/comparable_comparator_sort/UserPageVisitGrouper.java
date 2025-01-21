@@ -1,6 +1,7 @@
 package com.amazon.ata.comparable_comparator_sort;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,8 +16,30 @@ public class UserPageVisitGrouper {
      */
     public List<UserPageVisit> groupUserPageVisits(List<UserPageVisit> userPageVisits) {
         // PARTICIPANTS: add logic to implement groupUserPageVisits here
-        List<UserPageVisit> userPageVisitsCopy = new ArrayList<>();
 
+        List<UserPageVisit> userPageVisitsCopy = new ArrayList<>();
+        if (null == userPageVisits || userPageVisits.isEmpty()) {
+            return userPageVisitsCopy;
+        }
+        userPageVisitsCopy.addAll(userPageVisits);
+        //Collections.sort(userPageVisitsCopy);
+        boolean swapped;
+
+        for (int i = 0; i < userPageVisits.size() - 1; i++) {
+            swapped = false;
+
+            for (int j = 0; j < userPageVisits.size() - 1 - i; j++) {
+                if (userPageVisitsCopy.get(j).compareTo(userPageVisitsCopy.get(j+1)) > 0) {
+                    UserPageVisit temp = userPageVisitsCopy.get(j);
+                    userPageVisitsCopy.set(j, userPageVisitsCopy.get(j+1));
+                    userPageVisitsCopy.set(j+1, temp);
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
         return userPageVisitsCopy;
     }
 }

@@ -44,7 +44,12 @@ public class UserPageVisit implements Comparable<UserPageVisit> {
     @Override
     public boolean equals(Object o) {
         // PARTICIPANTS: implement equals method here (hint: you can use intellij's auto-generate).
-        return true;
+        //first check if the object is of the same type
+        if (this.getClass() == o.getClass()) {
+            //if yes, check if the long userid and String page are equal.
+            return this.userId == ((UserPageVisit) o).getUserId() && this.page.equals(((UserPageVisit) o).getPage());
+        }
+        return false;
     }
 
     @Override
@@ -66,15 +71,49 @@ public class UserPageVisit implements Comparable<UserPageVisit> {
     @Override
     public int compareTo(UserPageVisit other) {
         // PARTICIPANTS: implement compareTo method here
-        return 0;
+        //if userID is smaller than other userId, return -1
+        //if userID is equal to other userID,
+        //and if page is smaller, return -1
+        //else if page is equal to other page, return 0.
+        //else return 1.
+        if (this.userId < other.getUserId()) {
+            return -1;
+        } if (this.userId == other.getUserId()) {
+            if (this.page.equals(other.page)) {
+                return 0;
+            } else if (!(this.page.length() > other.page.length())) {
+                for (int i = 0; i < this.page.length(); i++) {
+                    if (Character.codePointAt(this.page, i)  == Character.codePointAt(other.page, i)) {
+                        continue;
+                    }
+                    if (Character.codePointAt(this.page, i)  < Character.codePointAt(other.page, i)) {
+                        return -1;
+                    }
+                    else return 1;
+                }
+                return -1;
+            } else {
+                for (int i = 0; i < other.page.length(); i++) {
+                    if (Character.codePointAt(this.page, i)  == Character.codePointAt(other.page, i)) {
+                        continue;
+                    }
+                    if (Character.codePointAt(this.page, i)  < Character.codePointAt(other.page, i)) {
+                        return -1;
+                    }
+                    else return 1;
+                }
+                return 1;
+            }
+        }
+        return 1;
     }
 
     @Override
     public String toString() {
         return "UserPageVisit{" +
-               "userId=" + userId +
-               ", page='" + page + '\'' +
-               ", timeOnPageInSeconds=" + timeOnPageInSeconds +
-               '}';
+                "userId=" + userId +
+                ", page='" + page + '\'' +
+                ", timeOnPageInSeconds=" + timeOnPageInSeconds +
+                '}';
     }
 }
